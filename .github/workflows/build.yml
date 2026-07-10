@@ -5,17 +5,17 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch: # Ручной запуск
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up JDK 8
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'temurin'
@@ -25,33 +25,35 @@ jobs:
       run: mvn clean package
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # ← ОБНОВЛЕНО ДО v4!
       with:
         name: ServerRestarterUltraPlus
         path: target/ServerRestarterUltraPlus-*.jar
+        retention-days: 30  # Хранить артефакты 30 дней
     
     - name: Create Release
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2  # ← ТОЖЕ ОБНОВИМ
       with:
         tag_name: v1.0.0
         name: ServerRestarterUltraPlus v1.0.0-ULTRA
         body: |
           ## 🚀 ServerRestarterUltraPlus v1.0.0-ULTRA
           
-          ### 🔥 Особенности:
-          - Поддержка 5 языков (ru/en/de/fr/ch)
-          - Сборка сообщения из частей
-          - Работает на всех версиях Spigot 1.13+
+          ### 🔥 Features:
+          - Ultra-useless server restart message
+          - Support for 5 languages (ru/en/de/fr/ch)
+          - Message assembly from parts
+          - Works on all Spigot 1.13+ versions
           
-          ### 👨‍💻 Автор:
+          ### 👨‍💻 Author:
           AllFiRE67 (c) 2026
           
-          ### 📦 Установка:
-          1. Скачать .jar файл
-          2. Закинуть в папку plugins
-          3. Перезапустить сервер
-          4. Наслаждаться!
+          ### 📦 Installation:
+          1. Download .jar file
+          2. Put in plugins folder
+          3. Restart server
+          4. Enjoy!
         files: target/ServerRestarterUltraPlus-*.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
