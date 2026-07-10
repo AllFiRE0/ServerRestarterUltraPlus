@@ -1,11 +1,13 @@
-name: Build and Release
+name: Build UltraPlus
 
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
 
 jobs:
   build:
@@ -25,35 +27,21 @@ jobs:
       run: mvn clean package
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v4  # ← ОБНОВЛЕНО ДО v4!
+      uses: actions/upload-artifact@v4
       with:
         name: ServerRestarterUltraPlus
         path: target/ServerRestarterUltraPlus-*.jar
-        retention-days: 30  # Хранить артефакты 30 дней
+        retention-days: 30
     
-    - name: Create Release
+    - name: Upload to Releases (если есть права)
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      uses: softprops/action-gh-release@v2  # ← ТОЖЕ ОБНОВИМ
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: v1.0.0
-        name: ServerRestarterUltraPlus v1.0.0-ULTRA
-        body: |
-          ## 🚀 ServerRestarterUltraPlus v1.0.0-ULTRA
-          
-          ### 🔥 Features:
-          - Ultra-useless server restart message
-          - Support for 5 languages (ru/en/de/fr/ch)
-          - Message assembly from parts
-          - Works on all Spigot 1.13+ versions
-          
-          ### 👨‍💻 Author:
-          AllFiRE67 (c) 2026
-          
-          ### 📦 Installation:
-          1. Download .jar file
-          2. Put in plugins folder
-          3. Restart server
-          4. Enjoy!
+        name: 🚀 ServerRestarterUltraPlus v1.0.0-ULTRA
+        body: "Самый лучший плагин для перезапуска!"
         files: target/ServerRestarterUltraPlus-*.jar
+        generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      continue-on-error: true  # ← НЕ ОСТАНАВЛИВАТЬ ПРИ ОШИБКЕ
