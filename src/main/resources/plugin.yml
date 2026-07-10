@@ -1,0 +1,7 @@
+name: ServerRestarterUltraPlus
+version: ${project.version}
+main: ru.allfire.plugin.ServerRestarterUltraPlus
+api-version: 1.13
+description: The best, fastest, and most optimized plugin for announcing server restarts
+author: AllFiRE67
+website: https://github.com/who67
