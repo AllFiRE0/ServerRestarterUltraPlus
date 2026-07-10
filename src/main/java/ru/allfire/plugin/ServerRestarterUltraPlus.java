@@ -3,6 +3,8 @@ package ru.allfire.plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;  // ← ВОТ ЭТОТ ИМПОРТ БЫЛ ПРОПУЩЕН!
+
 public class ServerRestarterUltraPlus extends JavaPlugin {
 
     private static ServerRestarterUltraPlus instance;
